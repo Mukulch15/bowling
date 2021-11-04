@@ -4,6 +4,7 @@ defmodule Bowling.Repo.Migrations.AddGamesTable do
   def change do
     create table("games") do
       add :lane, :integer
+      add :total_score, :integer
       timestamps()
     end
   end

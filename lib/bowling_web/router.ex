@@ -15,9 +15,10 @@ defmodule BowlingWeb.Router do
   end
 
   scope "/", BowlingWeb do
-    pipe_through :browser
-
-    get "/", PageController, :index
+    pipe_through :api
+    post "/game", GameController, :create
+    post "game/bowl", GameController, :bowl
+    # get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
@@ -36,7 +37,7 @@ defmodule BowlingWeb.Router do
     import Phoenix.LiveDashboard.Router
 
     scope "/" do
-      pipe_through :browser
+      pipe_through :api
       live_dashboard "/dashboard", metrics: BowlingWeb.Telemetry
     end
   end
