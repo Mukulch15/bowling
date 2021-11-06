@@ -1,17 +1,14 @@
 defmodule Bowling.Games do
+  @moduledoc false
   alias Bowling.GameServer
   alias Bowling.Schema.Game
   alias Bowling.Repo
 
-  def create_game(params) do
-    GenServer.call(GameServer, :clear)
+  import Ecto.Query
 
+  def create_game(params) do
     %{lane: params["lane"]}
     |> Game.changeset()
     |> Repo.insert()
-  end
-
-  def get_game(game_id) do
-    Repo.get!(Game, game_id)
   end
 end

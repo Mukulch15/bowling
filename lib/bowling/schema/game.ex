@@ -1,4 +1,7 @@
 defmodule Bowling.Schema.Game do
+  @moduledoc """
+   Schema for game
+  """
   alias Bowling.Schema.GameDetail
   import Ecto.Changeset
 

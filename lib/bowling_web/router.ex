@@ -18,6 +18,7 @@ defmodule BowlingWeb.Router do
     pipe_through :api
     post "/game", GameController, :create
     post "game/bowl", GameController, :bowl
+    get "/game/scores", GameController, :get_score
     # get "/", PageController, :index
   end
 

@@ -1,23 +1,28 @@
 defmodule BowlingWeb.GameController do
   alias Bowling.Games
+  alias Bowling.GameDetails
+  alias Bowling.GameServer
   use BowlingWeb, :controller
 
   def create(conn, params) do
     {:ok, game} = Games.create_game(params)
-    json(conn, %{game_id: game.id})
+    json(conn, %{game_id: game.id, pins_left: 10, try_no: 1, frame: 1})
   end
 
   def bowl(conn, params) do
-    {s, f, _} = GenServer.call(Bowling.GameServer, {:bowl, params["pins"], params["game_id"]})
+    case GameDetails.insert_game_detail(params) do
+      :error ->
+        conn
+        |> put_status(400)
+        |> json(%{error: "incorrect request"})
 
-    if f > 10 do
-      json(conn, %{status: "over", score: s})
-      GenServer.call(Bowling.GameServer, :clear)
-    else
-      json(conn, %{})
+      data ->
+        json(conn, data)
     end
   end
-end
 
-# GenServer.cast(Bowling.GameServer, {:bowl, 8, 1})
-# GenServer.call(Bowling.GameServer, :debug)
+  def get_score(conn, params) do
+    res = GameDetails.game_scores(params["game_id"])
+    json(conn, %{res: res})
+  end
+end
