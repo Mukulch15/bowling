@@ -140,10 +140,30 @@ defmodule Bowling.GameDetails do
     end
   end
 
+
+  def game_scores(game_id) do
+    if :ets.lookup(:frame_scores, game_id) == [], do: _game_scores_ets(game_id), else:  _game_scores_db(game_id)
+  end
+
+  def _game_scores_db(game_id) do
+    data = get_all_frame_states(game_id)
+    current_frame = get_completed_frame(game_id)
+    frame_scores = Enum.reduce(data, %{}, fn x, acc ->
+      if x.frame < current_frame do
+        val = Map.get(acc, x.frame, 0)
+        Map.put(acc, x.frame, x.pins + val)
+      else
+        acc
+      end
+    end)
+
+    total = Enum.reduce(frame_scores, 0, fn {_frame, score}, acc -> score + acc end)
+    %{frame_scores: frame_scores, total: total}
+  end
   @doc """
     Calculates the total game score and each frame score.
   """
-  def game_scores(game_id) do
+  def _game_scores_ets(game_id) do
     current_frame = get_completed_frame(game_id)
 
     frame_scores =
@@ -165,7 +185,7 @@ defmodule Bowling.GameDetails do
   # Auxillary function that fetches a map contaiing the details for each frame.
   defp get_all_frame_states(game_id) do
     GameDetail
-    |> select([u], %{pins: u.pins, frame: u.frame, next_frame: u.next_frame})
+    |> select([u], %{pins: u.pins, frame: u.frame})
     |> where([u], u.game_id == ^game_id)
     |> order_by(desc: :inserted_at)
     |> Repo.all()

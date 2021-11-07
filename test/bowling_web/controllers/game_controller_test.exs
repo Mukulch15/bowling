@@ -122,7 +122,7 @@ defmodule BowlingWeb.GameControllerTest do
         game_id: game.id
       })
 
-      :ets.insert(:frame_scores, {game.id, {10, 10}})
+      # :ets.insert(:frame_scores, {game.id, {10, 10}})
 
       json =
         conn
