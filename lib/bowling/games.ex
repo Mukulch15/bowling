@@ -1,14 +1,17 @@
 defmodule Bowling.Games do
   @moduledoc false
-  alias Bowling.GameServer
   alias Bowling.Schema.Game
   alias Bowling.Repo
 
-  import Ecto.Query
-
   def create_game(params) do
-    %{lane: params["lane"]}
-    |> Game.changeset()
-    |> Repo.insert()
+    changeset = Game.changeset(%{lane: params["lane"]})
+
+    case changeset do
+      %Ecto.Changeset{valid?: true} ->
+        Repo.insert(changeset)
+
+      %Ecto.Changeset{valid?: false} = changeset ->
+        {:error, Ecto.Changeset.traverse_errors(changeset, fn {msg, _opts} -> msg end)}
+    end
   end
 end

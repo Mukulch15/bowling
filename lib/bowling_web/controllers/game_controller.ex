@@ -5,8 +5,15 @@ defmodule BowlingWeb.GameController do
   use BowlingWeb, :controller
 
   def create(conn, params) do
-    {:ok, game} = Games.create_game(params)
-    json(conn, %{game_id: game.id, pins_left: 10, try_no: 1, frame: 1})
+    case Games.create_game(params) do
+      {:ok, game} ->
+        json(conn, %{game_id: game.id, pins_left: 10, try_no: 1, frame: 1})
+
+      {:error, error} ->
+        conn
+        |> put_status(400)
+        |> json(%{error: error})
+    end
   end
 
   def bowl(conn, params) do

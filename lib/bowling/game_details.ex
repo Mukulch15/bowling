@@ -121,17 +121,22 @@ defmodule Bowling.GameDetails do
   This function is used to recover the exact state of the game in ets in case the application crashes.
   """
   def recover_latest_game_state() do
-    {next_frame, game_id} = get_latest_game()
-    :ets.insert(:current_frame, {game_id, next_frame})
+    case get_latest_game() do
+      {next_frame, game_id} ->
+        :ets.insert(:current_frame, {game_id, next_frame})
 
-    if next_frame == 11 do
-      :ok
-    else
-      data = get_all_frame_states(game_id)
+        if next_frame == 11 do
+          :ok
+        else
+          data = get_all_frame_states(game_id)
 
-      Enum.each(data, fn x ->
-        :ets.insert(:frame_scores, {game_id, {x.frame, x.pins}})
-      end)
+          Enum.each(data, fn x ->
+            :ets.insert(:frame_scores, {game_id, {x.frame, x.pins}})
+          end)
+        end
+
+      _ ->
+        :ok
     end
   end
 
