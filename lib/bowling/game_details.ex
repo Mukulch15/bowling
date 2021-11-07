@@ -21,7 +21,6 @@ defmodule Bowling.GameDetails do
        10 |     2 |      2 |          2 |        3 |        10
        10 |     2 |      3 |          3 |        1 |        10
   """
-  alias Bowling.Games
   alias Bowling.Repo
   alias Bowling.Schema.GameDetail
   import Ecto.Query
@@ -106,6 +105,7 @@ defmodule Bowling.GameDetails do
     last_bowl =
       GameDetail
       |> select([u], u)
+      |> where([u], u.game_id == ^game_id)
       |> order_by([u], desc: :inserted_at)
       |> limit(1)
       |> Repo.one()
@@ -158,14 +158,12 @@ defmodule Bowling.GameDetails do
         end
       end)
 
-    total = Enum.reduce(frame_scores, 0, fn {frame, score}, acc -> acc = score + acc end)
+    total = Enum.reduce(frame_scores, 0, fn {_frame, score}, acc -> score + acc end)
     %{frame_scores: frame_scores, total: total}
   end
 
   # Auxillary function that fetches a map contaiing the details for each frame.
   defp get_all_frame_states(game_id) do
-    frame = get_completed_frame(game_id)
-
     GameDetail
     |> select([u], %{pins: u.pins, frame: u.frame, next_frame: u.next_frame})
     |> where([u], u.game_id == ^game_id)

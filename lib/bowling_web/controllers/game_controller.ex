@@ -1,7 +1,6 @@
 defmodule BowlingWeb.GameController do
   alias Bowling.Games
   alias Bowling.GameDetails
-  alias Bowling.GameServer
   use BowlingWeb, :controller
 
   def create(conn, params) do
@@ -21,7 +20,7 @@ defmodule BowlingWeb.GameController do
       :error ->
         conn
         |> put_status(400)
-        |> json(%{error: "incorrect request"})
+        |> json(%{})
 
       data ->
         json(conn, data)
