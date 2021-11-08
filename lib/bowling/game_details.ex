@@ -186,7 +186,7 @@ defmodule Bowling.GameDetails do
     %{frame_scores: frame_scores, total: total}
   end
 
-  #Auxillary function that fetches a map contaiing the details for each frame.
+  # Auxillary function that fetches a map contaiing the details for each frame.
   def get_all_frame_states(game_id) do
     GameDetail
     |> select([u], %{pins: u.pins, frame: u.frame})
@@ -195,7 +195,7 @@ defmodule Bowling.GameDetails do
     |> Repo.all()
   end
 
-  #Auxillary function that gives the latest bowling frame
+  # Auxillary function that gives the latest bowling frame
   defp get_latest_game do
     GameDetail
     |> select([u], {u.next_frame, u.game_id})

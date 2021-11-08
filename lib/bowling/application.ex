@@ -14,14 +14,12 @@ defmodule Bowling.Application do
       BowlingWeb.Telemetry,
       # Start the PubSub system
       {Phoenix.PubSub, name: Bowling.PubSub},
-      {Bowling.GameServer, []},
       # Start the Endpoint (http/https)
       BowlingWeb.Endpoint
       # Start a worker by calling: Bowling.Worker.start_link(arg)
       # {Bowling.Worker, arg}
     ]
 
-    # :ets.new(:game_details, [:public, :set, :named_table])
     :ets.new(:current_frame, [:public, :set, :named_table])
     :ets.new(:frame_scores, [:public, :duplicate_bag, :named_table])
     # See https://hexdocs.pm/elixir/Supervisor.html
