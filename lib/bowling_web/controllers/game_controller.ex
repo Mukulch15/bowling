@@ -29,6 +29,6 @@ defmodule BowlingWeb.GameController do
 
   def get_score(conn, params) do
     res = GameDetails.game_scores(params["game_id"])
-    json(conn, %{res: res})
+    json(conn, %{scores: res})
   end
 end

@@ -31,7 +31,18 @@ The response will be like:
 }`
 
 3. To get scores GET `http://localhost:4000/game/scores?game_id=<GAME_ID>`
+`{
+    "res": {
+        "frame_scores": {
+            "1": 8,
+            "2": 15
+        },
+        "total": 23
+    }
+}`
 
+The score api only gives the score when the frame is complete.
+Also the application will restore the previous state of an incomplete game if it restarts.
 After all the ten frames are over you will get all the frame scores and the total score.
 Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
 

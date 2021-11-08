@@ -111,7 +111,7 @@ defmodule BowlingWeb.GameControllerTest do
       assert %{"next_frame" => 1, "next_try" => 3, "pins_left" => 10} == json
     end
 
-    test "d", %{conn: conn, game: game} do
+    test "Give game score once all ten frames are over", %{conn: conn, game: game} do
       insert(:game_detail, %{
         pins: 10,
         frame: 10,
@@ -122,7 +122,7 @@ defmodule BowlingWeb.GameControllerTest do
         game_id: game.id
       })
 
-      # :ets.insert(:frame_scores, {game.id, {10, 10}})
+      :ets.insert(:frame_scores, {game.id, {10, 10}})
 
       json =
         conn
@@ -130,6 +130,25 @@ defmodule BowlingWeb.GameControllerTest do
         |> json_response(200)
 
       assert %{"frame_scores" => %{"10" => 16}, "total" => 16} == json
+    end
+  end
+
+  describe "GET /game/scores" do
+    setup do
+      game = insert(:game)
+      %{game: game}
+    end
+
+    test "fetch game scores", %{conn: conn, game: game} do
+      :ets.insert(:frame_scores, {game.id, {10, 10}})
+      :ets.insert(:current_frame, {game.id, 11})
+
+      json =
+        conn
+        |> get("/game/scores", %{game_id: game.id})
+        |> json_response(200)
+
+      assert %{"scores" => %{"frame_scores" => %{"10" => 10}, "total" => 10}} == json
     end
   end
 end
