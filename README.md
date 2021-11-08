@@ -12,15 +12,12 @@ How to run the app:
 1. First create a game using POST `http://localhost:4000/game`. You will get the following response:
 It gives you the initial state and game id which you have to use for subsequent bowls
 
-  `
-  {
-
+  `{
     "frame":1,
     "game_id":"c74ea9fd-0b4b-46b9-88d1-4b38232370c8",
     "pins_left":10,
     "try_no":1
-  }
-  `
+  }`
 
 2. To bowl hit the api POST `http://localhost:4000/game/bowl` with the request body:
 
