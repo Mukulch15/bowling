@@ -24,7 +24,6 @@ It gives you the initial state and game id which you have to use for subsequent 
   `{
     "game_id": "c74ea9fd-0b4b-46b9-88d1-4b38232370c8",
     "pins_down": 2
-
   }`
 
 The response will be like:
