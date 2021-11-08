@@ -12,7 +12,7 @@ How to run the app:
 1. First create a game using POST `http://localhost:4000/game`. You will get the following response:
 It gives you the initial state and game id which you have to use for subsequent bowls
 
-  ```json
+  `
   {
 
     "frame":1,
@@ -20,7 +20,7 @@ It gives you the initial state and game id which you have to use for subsequent 
     "pins_left":10,
     "try_no":1
   }
-  ```
+  `
 
 2. To bowl hit the api POST `http://localhost:4000/game/bowl` with the request body:
 
@@ -29,6 +29,7 @@ It gives you the initial state and game id which you have to use for subsequent 
     "pins_down": 2
 
   }`
+
 The response will be like:
 
   `{
