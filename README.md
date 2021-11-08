@@ -11,6 +11,7 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 How to run the app:
 1. First create a game using POST `http://localhost:4000/game`. You will get the following response:
 It gives you the initial state and game id which you have to use for subsequent bowls
+
 `{
     "frame": 1,
     "game_id": "c74ea9fd-0b4b-46b9-88d1-4b38232370c8",
@@ -18,12 +19,14 @@ It gives you the initial state and game id which you have to use for subsequent 
     "try_no": 1
 }`
 2. To bowl hit the api POST `http://localhost:4000/game/bowl` with the request body:
+
 `{
     "game_id": "c74ea9fd-0b4b-46b9-88d1-4b38232370c8",
     "pins_down": 2
 
 }`
 The response will be like:
+
 `{
     "next_frame": 3,
     "next_try": 1,
@@ -31,6 +34,7 @@ The response will be like:
 }`
 
 3. To get scores GET `http://localhost:4000/game/scores?game_id=<GAME_ID>`
+
 `{
     "res": {
         "frame_scores": {
